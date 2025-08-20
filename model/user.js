@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Wallet = require("../model/wallet")
 
 const UserSchema = new mongoose.Schema(
   {
@@ -78,6 +79,7 @@ UserSchema.methods.createJWT = async function () {
     {
       userId: this._id,
       name: this.name,
+      role: this.role
     },
     process.env.JWT_SECRET,
     { expiresIn: "24h" }
