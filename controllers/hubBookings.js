@@ -81,3 +81,10 @@ const confirmHubBooking = async (req, res) => {
     res.status(error.statusCode).json({ error: error.message });
   }
 };
+
+module.exports = {
+  confirmHubBooking,
+  approveHubBooking,
+  getHubBookings,
+  createHubBooking,
+};
