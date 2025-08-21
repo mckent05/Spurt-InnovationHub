@@ -14,7 +14,9 @@ routes
   .get(getHubBookings)
   .post(roleCheck(["startup"]), createHubBooking);
 
-routes.route("/:id/approve").patch(roleCheck(["hub_manager"]), approveHubBooking);
+routes
+  .route("/:id/approve")
+  .patch(roleCheck(["hub_manager"]), approveHubBooking);
 routes.route("/:id/confirm").patch(roleCheck(["startup"]), confirmHubBooking);
 
 module.exports = routes;
