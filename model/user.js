@@ -78,11 +78,11 @@ UserSchema.methods.createJWT = async function () {
   return jwt.sign(
     {
       userId: this._id,
-      name: this.name,
+      name: this.fullName,
       role: this.role
     },
     process.env.JWT_SECRET,
-    { expiresIn: "24h" }
+    { expiresIn: "7d" }
   );
 };
 

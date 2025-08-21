@@ -11,7 +11,11 @@ const HubBookingSchema = new mongoose.Schema({
     ref: "Hub", // Hub being booked
     required: true,
   },
-  date: {
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  startDate: {
     type: Date,
     required: true,
   },
@@ -19,11 +23,11 @@ const HubBookingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    enum: ["pending", "hub_approved", "startup_confirmed", "completed"],
-    default: "pending",
-  },
+  status: { 
+    type: String, 
+    enum: ['requested','approved_by_manager','confirmed','checked_in','completed','cancelled'],
+    default: 'requested'
+  }
 }, { timestamps: true });
 
 const HubBooking = mongoose.model("HubBooking", HubBookingSchema);

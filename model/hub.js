@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const mongoose = require("mongoose");
-
 const HubSchema = new mongoose.Schema(
   {
     name: {
@@ -24,15 +22,6 @@ const HubSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // Reference to User (hub manager)
       unique: true,
-    },
-    availability: {
-      type: [
-        {
-          date: { type: String },
-          slots: [String],
-        },
-      ],
-      default: [],
     },
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
@@ -62,4 +51,13 @@ HubSchema.pre("save", async function (next) {
 
 const Hub = mongoose.model("Hub", HubSchema);
 
-module.exports = Hub;
+const AvailabilitySchema = new mongoose.Schema({
+  hubId: { type: mongoose.Schema.Types.ObjectId, ref: 'Hub', required: true },
+  startsAt: { type: Date, required: true },
+  endsAt: { type: Date, required: true },
+  capacity: { type: Number, default: 1 }
+});
+
+const HubAvailability = mongoose.model('HubAvailability', AvailabilitySchema);
+
+module.exports = { Hub, HubAvailability };
