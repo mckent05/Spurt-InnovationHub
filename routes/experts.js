@@ -11,7 +11,7 @@ const routes = express.Router();
 routes
   .route("/")
   .get(getExperts)
-  .post(roleCheck(["startup", "admin"]), createExpert);
+  .post(roleCheck(["expert", "admin"]), createExpert);
 
 routes.route("/update-expert").patch(roleCheck(["expert"]), updateExpert);
 // routes.route("/by-client/:clientId").get(projectByClient);

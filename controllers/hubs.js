@@ -65,6 +65,10 @@ const createHub = async (req, res) => {
 const hubAvailability = async (req, res) => {
   try {
     const { startsAt, endsAt, capacity } = req.body;
+    const hub = Hub.findById(req.params.id);
+    if (req.user.userId !== hub.managerId) {
+      return res.status(StatusCodes.FORBIDDEN).json({ error: "Access Denied" });
+    }
     const avail = await HubAvailability.create({
       hub: req.params.id,
       startsAt,

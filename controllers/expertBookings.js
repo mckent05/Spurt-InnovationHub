@@ -31,7 +31,7 @@ const createBooking = async (req, res) => {
 const getBookings = async (req, res) => {
   try {
     const {
-      user: { role: role },
+      user: { role },
     } = req;
     let q = {};
     if (role === "startup") {
@@ -56,7 +56,7 @@ const getBookings = async (req, res) => {
 
 const approveBooking = async (req, res) => {
   const {
-    params: { id: id },
+    params: { id },
   } = req;
   try {
     const booking = await ExpertBooking.findById(id).populate("expertId");
@@ -82,7 +82,7 @@ const confirmBooking = async (req, res) => {
     params: { id: id },
   } = req;
   try {
-    const s = await ExpertBooking.findById(id).populate("expertId");
+    const booking = await ExpertBooking.findById(id).populate("expertId");
     if (!booking) {
       const error = new NotfoundError(`No Booking with id: ${id} found`);
       return res.status(error.statusCode).json({ error: error.message });

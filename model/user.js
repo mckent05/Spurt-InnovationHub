@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Wallet = require("../model/wallet")
+const { Wallet } = require("../model/wallet")
 
 const UserSchema = new mongoose.Schema(
   {
@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema(
     },
     cohort: {
       type: String,
-      enum: ["Cohort 1", "Cohort 2", "Cohort 3", "Cohort 4+"],
+      enum: ["cohort 1", "cohort 2", "cohort 3", "cohort 4"],
       required: true,
     },
     associatedHub: {

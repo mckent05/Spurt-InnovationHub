@@ -50,15 +50,18 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    throw new BadRequestError("Please provide username and password");
+    const error = new BadRequestError("Please provide username and password");
+    return res.status(error.statusCode).json({ error: error.message });
   }
   const user = await User.findOne({ email });
   if (!user) {
-    throw new UnAuthenticatedError("Invalid Credentials");
+    const error = new UnAuthenticatedError("Invalid Credentials");
+    return res.status(error.statusCode).json({ error: error.message });
   }
   const isPasswordMatch = await user.comparePassword(password);
   if (!isPasswordMatch) {
-    throw new UnAuthenticatedError("Invalid Credentials");
+    const error = new UnAuthenticatedError("Invalid Credentials");
+    return res.status(error.statusCode).json({ error: error.message });
   }
   if (user.status !== "approved" && user.role !== "admin") {
     return res
@@ -70,7 +73,13 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ token });
 };
 
+const logout = async (res, req) => {
+  res.clearCookie("token");
+  res.json(StatusCodes.OK);
+}
+
 module.exports = {
   login,
   register,
+  logout
 };

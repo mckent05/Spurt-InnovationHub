@@ -36,7 +36,7 @@ const getExperts = async (req, res) => {
       });
     }
     const experts = await Expert.aggregate(pipeline).limit(100);
-    res.json(experts);
+    res.status(StatusCodes.OK).json(experts);
   } catch (err) {
     console.error(err);
     const error = new InternalServerError("Server error");
@@ -73,6 +73,10 @@ const updateExpert = async (req, res) => {
       { bio, calendarLink, expertise },
       { upsert: true, new: true }
     );
+    if (!expert) {
+      const error = new NotfoundError(`No expert with id: ${userId} found`);
+      return res.status(error.statusCode).json({ error: error.message });
+    }
     res.status(StatusCodes.OK).json(expert);
   } catch (err) {
     console.error(err);

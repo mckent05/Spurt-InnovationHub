@@ -15,7 +15,7 @@ const users = async (req, res) => {
       .select("email fullName role phone status")
       .limit(200)
       .sort({ createdAt: -1 });
-    res.json(users);
+    res.status(StatusCodes.OK).json(users);
   } catch (e) {
     console.error(err);
     res
@@ -41,7 +41,7 @@ const approveUser = async (req, res) => {
     //   subject: "Account Approved",
     //   html: "<p>Your account has been approved.</p>",
     // });
-    res.json(user);
+    res.status(StatusCodes.OK).json(user);
   } catch (e) {
     console.error(err);
     res

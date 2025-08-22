@@ -21,7 +21,7 @@ const WalletSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Wallet = new mongoose.model("Wallet", WalletSchema)
+const Wallet = mongoose.model("Wallet", WalletSchema)
 
 const WalletTxSchema = new mongoose.Schema({
   walletId: { type: mongoose.Schema.Types.ObjectId, ref: 'Wallet' },
@@ -52,4 +52,4 @@ const PayoutSchema = new mongoose.Schema({
 
 const Payout = mongoose.model('Payout', PayoutSchema);
 
-module.exports = { Wallet, PayoutMethod, Payout, WalletTx}
+module.exports = { Wallet, PayoutMethod, Payout, WalletTx }
