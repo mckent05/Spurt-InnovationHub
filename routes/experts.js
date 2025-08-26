@@ -13,7 +13,7 @@ routes
   .get(getExperts)
   .post(roleCheck(["expert", "admin"]), createExpert);
 
-routes.route("/update-expert").patch(roleCheck(["expert"]), updateExpert);
+routes.route("/update-expert").patch(roleCheck(["expert, admin"]), updateExpert);
 // routes.route("/by-client/:clientId").get(projectByClient);
 // routes.route("/:id").get(getProject).delete(deleteProject).put(updateProject);
 

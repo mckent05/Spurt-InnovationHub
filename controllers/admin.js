@@ -12,7 +12,7 @@ const users = async (req, res) => {
     const { status } = req.query;
     const query = status ? { status: status } : {};
     const users = await User.find(query)
-      .select("email fullName role phone status")
+      .select("email fullName role phone status createdAt")
       .limit(200)
       .sort({ createdAt: -1 });
     res.status(StatusCodes.OK).json(users);
