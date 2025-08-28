@@ -13,8 +13,14 @@ const User = require("../model/user");
 const createBooking = async (req, res) => {
   try {
     const { expertId, startDate, endDate } = req.body;
+    const expert = Expert.findById(expertId);
+    console.log(expert)
+    if (!expert) {
+      const error = new NotfoundError(`No expert with Id: ${expertId} found`);
+      return res.status(error.statusCode).json({ error: error.message });
+    }
     const booking = await ExpertBooking.create({
-      expertId: expertId,
+      expertId: expert.id,
       startupId: req.user.userId,
       startDate,
       endDate,

@@ -15,6 +15,7 @@ const hubBookingRoutes = require("./routes/hubBookings");
 const payOutRoutes = require("./routes/payouts");
 const walletRoutes = require("./routes/wallets");
 const userRoutes = require("./routes/users");
+const analyticsRoutes = require("./routes/analytics")
 const notFound = require("./middleWare/notFound");
 const app = express();
 let connectionString = process.env.MONGO_URI;
@@ -36,6 +37,7 @@ app.use("/api/v1/hub-booking", auth, hubBookingRoutes);
 app.use("/api/v1/payouts", auth, payOutRoutes);
 app.use("/api/v1/wallets", auth, walletRoutes);
 app.use("/api/v1/my-profile", auth, userRoutes);
+app.use("/api/v1/analytics", auth, analyticsRoutes);
 app.use(errorHandlerMiddleware);
 app.use(notFound);
 
