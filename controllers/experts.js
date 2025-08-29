@@ -35,7 +35,10 @@ const getExperts = async (req, res) => {
     //     },
     //   });
     // }
-    const experts = await Expert.find().populate('userId');
+    const experts = await Expert.find().populate({
+      path: "userId",
+      select: "fullName email role"
+    });
     res.status(StatusCodes.OK).json(experts);
   } catch (err) {
     console.error(err);

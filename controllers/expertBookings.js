@@ -13,8 +13,7 @@ const User = require("../model/user");
 const createBooking = async (req, res) => {
   try {
     const { expertId, startDate, endDate } = req.body;
-    const expert = Expert.findById(expertId);
-    console.log(expert)
+    const expert = await Expert.findById(expertId);
     if (!expert) {
       const error = new NotfoundError(`No expert with Id: ${expertId} found`);
       return res.status(error.statusCode).json({ error: error.message });
@@ -48,11 +47,14 @@ const getBookings = async (req, res) => {
       else q._id = null;
     }
     const bookings = await ExpertBooking.find(q)
-      .populate({ path: "expertId", populate: { path: "userId" } })
-      .populate("startupId")
+      .populate({
+        path: "expertId",
+        populate: { path: "userId", select: "fullName email role status" },
+      })
+      .populate({ path: "startupId", select: "fullName email role status" })
       .sort({ createdAt: -1 })
       .limit(100);
-    res.status(StatusCodes.CREATED).json(bookings);
+    res.status(StatusCodes.OK).json(bookings);
   } catch (err) {
     console.error(err);
     const error = new InternalServerError("Server error");
@@ -65,7 +67,10 @@ const approveBooking = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const booking = await ExpertBooking.findById(id).populate("expertId");
+    const booking = await ExpertBooking.findById(id).populate({
+      path: "expertId",
+      select: "fullName email role status",
+    });
     if (!booking) {
       const error = new NotfoundError(`No booking with ${id} found`);
       return res.status(error.statusCode).json({ error: error.message });
@@ -88,7 +93,10 @@ const confirmBooking = async (req, res) => {
     params: { id: id },
   } = req;
   try {
-    const booking = await ExpertBooking.findById(id).populate("expertId");
+    const booking = await ExpertBooking.findById(id).populate({
+      path: "expertId",
+      select: "fullName email role status",
+    });
     if (!booking) {
       const error = new NotfoundError(`No Booking with id: ${id} found`);
       return res.status(error.statusCode).json({ error: error.message });
@@ -128,7 +136,10 @@ const completeBooking = async (req, res) => {
     params: { id: id },
   } = req;
   try {
-    const booking = await ExpertBooking.findById(id).populate("expertId");
+    const booking = await ExpertBooking.findById(id).populate({
+      path: "expertId",
+      select: "fullName email role status",
+    });
     if (!booking) {
       const error = new NotfoundError(`No Booking with id: ${id} found`);
       return res.status(error.statusCode).json({ error: error.message });

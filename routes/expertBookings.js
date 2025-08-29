@@ -13,7 +13,7 @@ const routes = express.Router();
 routes
   .route("/")
   .get(getBookings)
-  .post(roleCheck(["startup", "admin"]), createBooking);
+  .post(roleCheck(["startup"]), createBooking);
 
 routes.route("/:id/approve").patch(roleCheck(["expert"]), approveBooking);
 routes.route("/:id/confirm").patch(roleCheck(["startup"]), confirmBooking);
