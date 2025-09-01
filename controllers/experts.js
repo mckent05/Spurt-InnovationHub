@@ -51,6 +51,7 @@ const createExpert = async (req, res) => {
   const { biography, expertise, calendarLink } = req.body;
   try {
     const userId = req.user.userId;
+    
     const existing = await Expert.findOne({ userId });
     if (existing) return res.json(existing);
     const expert = await Expert.create({
